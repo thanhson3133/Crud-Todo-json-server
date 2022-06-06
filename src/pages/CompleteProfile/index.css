@@ -1,0 +1,156 @@
+.container_ {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  border-radius: 6px;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgb(187, 186, 186);
+  margin: auto;
+  margin-top: 2rem;
+}
+.container_ header {
+  position: relative;
+  font-size: 20px;
+  font-weight: 600;
+  color: #4caf50;
+}
+.container_ header::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 3px;
+  width: 27px;
+  border-radius: 8px;
+  background-color: #4caf50;
+}
+.container_ form {
+  position: relative;
+  margin-top: 16px;
+  min-height: 400px;
+  background-color: #fff;
+  overflow: hidden;
+}
+.container_ form .form {
+  position: absolute;
+  background-color: #fff;
+  transition: 0.3s ease;
+}
+.container_ form .title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 6px 0;
+  color: #4caf50;
+}
+.container_ form .fields {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+form .fields .input-field {
+  display: flex;
+  width: calc(100% / 3 - 15px);
+  flex-direction: column;
+  margin: 4px 0;
+}
+.input-field label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #2e2e2e;
+}
+.input-fields{
+    width: 100%!important;
+}
+.input-field input {
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  padding: 0 15px;
+  height: 42px;
+  
+}
+.input-field input :focus {
+  border: 1px solid #4caf50 !important;
+}
+.input-field input,
+select {
+  outline: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  padding: 0 15px;
+  height: 42px;
+}
+.input-field input :focus,
+.input-field select:focus {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.13);
+}
+.input-field select,
+.input-field input[type="date"] {
+  color: #707070;
+}
+form .btn {
+  background-color: #4caf50 !important;
+}
+.container_ form .btnText {
+  font-size: 14px;
+  font-weight: 400;
+}
+form button:hover {
+  background-color: #265df2;
+}
+form .btn span,
+i {
+  color: white;
+  padding: 0.5rem;
+}
+.gender-field {
+  display: flex;
+  align-items: center;
+}
+.gender-field .gender-select {
+  padding-right: 1.5rem;
+}
+.gender-field .gender-select label {
+  padding-left: 0.5rem !important;
+}
+.citizenship .citizenship-img {
+  display: flex;
+}
+.citizenship .citizenship-img .img-profile {
+  width: 170px;
+  margin-right: 1.5rem;
+}
+.citizenship .citizenship-img .img-profile img {
+  width: 100%;
+  height: 95px;
+}
+.citizenship .citizenship-img .img-profile label {
+  padding: 1rem 0rem 0.5rem 0rem;
+}
+@media (max-width: 750px) {
+  .container_ form {
+    overflow-y: scroll;
+  }
+  .container_ form::-webkit-scrollbar {
+    display: none;
+  }
+  form .fields .input-field {
+    width: calc(100% / 2 - 15px);
+  }
+}
+
+@media (max-width: 550px) {
+  form .fields .input-field {
+    width: 100%;
+  }
+}
