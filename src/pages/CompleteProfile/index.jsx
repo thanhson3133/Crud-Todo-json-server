@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./index.css";
 import img_bg from "../../assets/img/Images.png";
+import { useDispatch } from "react-redux";
+import { completeProfile } from "../../redux/action/user";
 export default function CompleteProfile() {
   const [urlImgUp, seturlImgFront] = useState(null);
   const [urlImgDown, seturlImgBack] = useState(null);
@@ -23,10 +25,12 @@ export default function CompleteProfile() {
     fbNT: "",
     chieuCao: "",
     canNang: "",
+    gioiTinh: "",
     diTat: "",
     Image_Up: "",
     Image_Down: "",
   });
+  const dispatch = useDispatch();
   const handlePostChangeUp = (e) => {
     seturlImgFront(e.target.files[0]);
     setForm({
@@ -59,6 +63,7 @@ export default function CompleteProfile() {
   console.log(form);
   const handleSubmitProfile = (e) => {
     e.preventDefault();
+    // dispatch(completeProfile(form))
   };
   return (
     <div className="container_">
@@ -68,14 +73,14 @@ export default function CompleteProfile() {
           <span className="title">Thông tin địa chỉ</span>
           <div className="fields">
             <div class="input-field">
-              <label>Tỉnh / Thành Phố</label>
+              <label>Tỉnh / Thành Phố <span className="text-danger"> *</span></label>
               <select
                 required
                 onChange={handleChangeSelect}
                 value={form.tinhThanhPho}
                 name="tinhThanhPho"
               >
-                <option disabled selected>
+                <option value="" selected>
                   Chọn
                 </option>
                 <option value="HoChiMinh">Hồ Chí Minh</option>
@@ -84,14 +89,14 @@ export default function CompleteProfile() {
               </select>
             </div>
             <div class="input-field">
-              <label>Huyện / Quận</label>
+              <label>Huyện / Quận <span className="text-danger"> *</span></label>
               <select
                 required
                 onChange={handleChangeSelect}
                 value={form.huyenQuan}
                 name="huyenQuan"
               >
-                <option disabled selected>
+                <option value="" selected>
                   Chọn
                 </option>
                 <option value="TanBinh">Quận Tân Bình</option>
@@ -100,14 +105,14 @@ export default function CompleteProfile() {
               </select>
             </div>
             <div class="input-field">
-              <label>Xã / Phường</label>
+              <label>Xã / Phường <span className="text-danger"> *</span></label>
               <select
                 required
                 onChange={handleChangeSelect}
                 value={form.xaPhuong}
                 name="xaPhuong"
               >
-                <option disabled selected>
+                <option value="" selected>
                   Chọn
                 </option>
                 <option value="1">1</option>
@@ -116,7 +121,7 @@ export default function CompleteProfile() {
               </select>
             </div>
             <div className="input-field input-fields">
-              <label>Đường / Số Nhà</label>
+              <label>Đường / Số Nhà <span className="text-danger"> *</span></label>
               <input
                 type="text"
                 placeHolder="Nhập thông tin"
@@ -132,7 +137,23 @@ export default function CompleteProfile() {
           <span className="title">Thông tin liên hệ</span>
           <div className="fields">
             <div class="input-field">
-              <label>Số điện thoại</label>
+              <label>Giới tính <span className="text-danger"> *</span></label>
+              <select
+                required
+                onChange={handleChangeSelect}
+                value={form.gioiTinh}
+                name="gioiTinh"
+              >
+                <option value="" selected>
+                  Chọn
+                </option>
+                <option value="nam">Nam</option>
+                <option value="nu">Nữ</option>
+                <option value="khac">Khác</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <label>Số điện thoại <span className="text-danger"> *</span></label>
               <input
                 type="text"
                 placeHolder="Nhập thông tin"
@@ -175,13 +196,15 @@ export default function CompleteProfile() {
                 required
               />
             </div>
+            <div class="input-field">
+            </div>
           </div>
         </div>
         <div className="details personal">
           <span className="title">Người thân</span>
           <div className="fields">
             <div class="input-field">
-              <label>Số điện thoại</label>
+              <label>Số điện thoại <span className="text-danger"> *</span></label>
               <input
                 type="text"
                 placeHolder="Nhập thông tin"
@@ -226,7 +249,7 @@ export default function CompleteProfile() {
                 value={form.taiLe}
                 name="taiLe"
               >
-                <option disabled selected>
+                <option value="" selected>
                   Chọn
                 </option>
                 <option>Hàn</option>
@@ -238,11 +261,11 @@ export default function CompleteProfile() {
             </div>
           </div>
         </div>
-        <div className="details personal">
+        <div className="details detail_healthy">
           <span className="title">Sức khỏe</span>
           <div className="fields">
             <div class="input-field">
-              <label>Chiều cao</label>
+              <label>Chiều cao <span className="text-danger"> *</span></label>
               <input
                 type="text"
                 placeHolder="Nhập thông tin"
@@ -253,7 +276,7 @@ export default function CompleteProfile() {
               />
             </div>
             <div class="input-field">
-              <label>Cân nặng</label>
+              <label>Cân nặng <span className="text-danger"> *</span></label>
               <input
                 type="text"
                 placeHolder="Nhập thông tin"
@@ -263,8 +286,8 @@ export default function CompleteProfile() {
                 required
               />
             </div>
-            <div class="input-field">
-              <label>Dị tật ngoại hình</label>
+            <div className="input-field input-fields">
+              <label>Dị tật ngoại hình </label>
               <input
                 type="text"
                 placeHolder="Nhập thông tin"
@@ -276,26 +299,7 @@ export default function CompleteProfile() {
             </div>
           </div>
         </div>
-        <div className="gender">
-          <span className="title">Giới tính</span>
-          <div className="gender-field">
-            <div className="gender-select">
-              <input type="radio" name="gender" id="gender" />
-              <label htmlFor="nam">Nam</label>
-            </div>
-
-            <div className="gender-select">
-              <input type="radio" name="gender" id="gender" />
-              <label htmlFor="nu">Nữ</label>
-            </div>
-
-            <div className="gender-select">
-              <input type="radio" name="gender" id="gender" />
-              <label htmlFor="other">Other</label>
-            </div>
-          </div>
-        </div>
-        <div className="details personal">
+        <div className="details detail_enjoy">
           <span className="title">Sở thích</span>
           <div className="fields">
             <div class="input-field">
@@ -405,7 +409,7 @@ export default function CompleteProfile() {
             </div>
           </div>
         </div>
-        <div className="">
+        <div className="text-center">
           <button className="btn">
             <span className="btnText">Cập nhật</span>
           </button>
