@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import SignIn from './pages/SignIn'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
@@ -15,13 +16,14 @@ function App() {
     <Router>
       <Suspense>
         <Routes>
-          <Route exact path="/" element={<Login />} />
+          <Route exact path="/dangnhap" element={<SignIn />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/search" element={<Search />} />
           <Route exact path="/search2" element={<Search2 />} />
           <Route exact path="/quantri" element={<Admin />} />
           <Route exact path="/hoanthienhoso" element={<CompleteProfile />} />
           <Route exact path="/baikiemtra" element={<TestPage />} />
+          <Route exact path="/" element={< SignUp/>} />
           <Route exact path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>

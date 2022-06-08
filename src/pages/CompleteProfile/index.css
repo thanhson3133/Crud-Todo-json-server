@@ -156,7 +156,7 @@ i {
 .citizenship .citizenship-img .img-profile label {
   padding: 1rem 0rem 0.5rem 0rem;
 }
-.btn{
+.btn_update{
   width: 50%;
 }
 @media (max-width: 750px) {
