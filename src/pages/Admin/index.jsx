@@ -45,7 +45,7 @@ export default function Admin() {
     dispatch(createAction(ADDUSER, true));
   };
   return (
-    <body>
+    <body className="body_admin">
       <input type="checkbox" name="" id="nav-toggle" />
       <div className="sidebar">
         <div className="sidebar-brand">
@@ -55,36 +55,219 @@ export default function Admin() {
             </h1>
           </NavLink>
         </div>
-        <div
-          className="sidebar-menu nav nav-pills bg-navy "
-          id="v-pills-tab"
-          role="tablist"
-          aria-orientation="vertical"
-        >
+        <div className="sidebar-menu" >
           <ul className="nav">
             <li className="active">
-              <a
-                id="v-pills-profile-tab"
-                data-toggle="pill"
-                href="#v-pills-profile"
-                role="tab"
-                aria-controls="v-pills-profile"
-                aria-selected="false"
-              >
-                <span className="las la-igloo"></span> <span>Dashboard</span>
+              <input type="checkbox" id="nav_checkbox" />
+              <a className="a_active">
+                <label htmlFor="nav_checkbox">
+                  <span className="las la-igloo"></span> <span>Danh Mục <i class="fa fa-angle-down"></i></span>
+                </label>
               </a>
+              <ul className="nav nav__itemFirst ">
+                <li className="mt-2">
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Khu Vực</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-messages-tab"
+                    data-toggle="pill"
+                    href="#v-pills-messages"
+                    role="tab"
+                    aria-controls="v-pills-messages"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Nhân Viên Khu Vực</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Bàn</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Bảng Giá</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Nguyên Liệu</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Món</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Ghi Chú</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Thẻ Khách Hàng</span>
+                  </a>
+                </li>
+              </ul>
             </li>
             <li>
-              <a
-                id="v-pills-messages-tab"
-                data-toggle="pill"
-                href="#v-pills-messages"
-                role="tab"
-                aria-controls="v-pills-messages"
-                aria-selected="false"
-              >
-                <span className="las la-users"></span> <span>Customers</span>
+              <input type="checkbox" id="nav_checkboxSecond" />
+              <a className="a_activeSecond">
+                <label htmlFor="nav_checkboxSecond">
+                  <span className="las la-users"></span> <span>Kho <i class="fa fa-angle-down"></i></span>
+                </label>
               </a>
+              <ul className="nav nav__itemSecond">
+                <li className="mt-2">
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Yêu Cầu</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <input type="checkbox" id="nav_checkboxThird" />
+              <a className="a_activeThird">
+                <label htmlFor="nav_checkboxThird">
+                  <span className="las la-users"></span> <span>Quản Lý <i class="fa fa-angle-down"></i></span>
+                </label>
+              </a>
+              <ul className="nav nav__itemThird">
+                <li className="mt-2">
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Tiền Mặt</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Yêu Cầu Trả Tiền Mặt</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Hóa Đơn</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Kho Chế Biến</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    id="v-pills-profile-tab"
+                    data-toggle="pill"
+                    href="#v-pills-profile"
+                    role="tab"
+                    aria-controls="v-pills-profile"
+                    aria-selected="false"
+                  >
+                    <span className="las la-igloo"></span>
+                    <span>Hủy Món</span>
+                  </a>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -143,7 +326,7 @@ export default function Admin() {
                           <tbody>
                             <tr>
                               <td>1</td>
-                              <td >FrontEnd</td>
+                              <td>FrontEnd</td>
                               <td>05/05/2022</td>
                               <td>
                                 <span className="status purple"></span>
@@ -294,118 +477,6 @@ export default function Admin() {
                     </div>
                   </div>
                 </div>
-                <div className="custormers">
-                  <div className="card">
-                    <div className="card-header">
-                      <h2>Customer</h2>
-                      <button
-                        onClick={() => {
-                          handleAddUser();
-                        }}
-                      >
-                        Add Customer
-                        <span className="las la-arrow-right"></span>
-                      </button>
-                    </div>
-                    <div className="card-body">
-                      <div className="customer">
-                        <div className="info">
-                          <span className="las la-arrow-right"></span>
-                          <div>
-                            <h4>Lewis S.Cunnigham</h4>
-                            <small>CEO Excerpt</small>
-                          </div>
-                        </div>
-                        <div className="contact">
-                          <i
-                            class="las la-edit"
-                            onClick={() => {
-                              handleUpdateUser();
-                            }}
-                          ></i>
-                          <i
-                            class="las la-exclamation-circle"
-                            onClick={() => {
-                              openDetailUser();
-                            }}
-                          ></i>
-                          <i class="las la-trash"></i>
-                        </div>
-                      </div>
-
-                      <div className="customer">
-                        <div className="info">
-                          <span className="las la-arrow-right"></span>
-                          <div>
-                            <h4>Lewis S.Cunnigham</h4>
-                            <small>CEO Excerpt</small>
-                          </div>
-                        </div>
-                        <div className="contact">
-                          <i class="las la-edit"></i>
-                          <i class="las la-exclamation-circle"></i>
-                          <i class="las la-trash"></i>
-                        </div>
-                      </div>
-                      <div className="customer">
-                        <div className="info">
-                          <span className="las la-arrow-right"></span>
-                          <div>
-                            <h4>Lewis S.Cunnigham</h4>
-                            <small>CEO Excerpt</small>
-                          </div>
-                        </div>
-                        <div className="contact">
-                          <i class="las la-edit"></i>
-                          <i class="las la-exclamation-circle"></i>
-                          <i class="las la-trash"></i>
-                        </div>
-                      </div>
-                      <div className="customer">
-                        <div className="info">
-                          <span className="las la-arrow-right"></span>
-                          <div>
-                            <h4>Lewis S.Cunnigham</h4>
-                            <small>CEO Excerpt</small>
-                          </div>
-                        </div>
-                        <div className="contact">
-                          <i class="las la-edit"></i>
-                          <i class="las la-exclamation-circle"></i>
-                          <i class="las la-trash"></i>
-                        </div>
-                      </div>
-                      <div className="customer">
-                        <div className="info">
-                          <span className="las la-arrow-right"></span>
-                          <div>
-                            <h4>Lewis S.Cunnigham</h4>
-                            <small>CEO Excerpt</small>
-                          </div>
-                        </div>
-                        <div className="contact">
-                          <i class="las la-edit"></i>
-                          <i class="las la-exclamation-circle"></i>
-                          <i class="las la-trash"></i>
-                        </div>
-                      </div>
-                      <div className="customer">
-                        <div className="info">
-                          <span className="las la-arrow-right"></span>
-                          <div>
-                            <h4>Lewis S.Cunnigham</h4>
-                            <small>CEO Excerpt</small>
-                          </div>
-                        </div>
-                        <div className="contact">
-                          <i class="las la-edit"></i>
-                          <i class="las la-exclamation-circle"></i>
-                          <i class="las la-trash"></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div
@@ -415,15 +486,6 @@ export default function Admin() {
               aria-labelledby="v-pills-messages-tab"
             >
               <div className="cards">
-                <div className="card-single">
-                  <div>
-                    <h1>54</h1>
-                    <span>Customers</span>
-                  </div>
-                  <div>
-                    <span className="las la-users"> </span>
-                  </div>
-                </div>
                 <div className="card-single">
                   <div>
                     <h1>79</h1>
@@ -454,6 +516,7 @@ export default function Admin() {
               </div>
             </div>
           </div>
+          
         </main>
       </div>
       <EditProduct />

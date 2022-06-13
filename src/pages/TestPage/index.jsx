@@ -7,7 +7,9 @@ import "./testpage.css";
 export default function TestPage() {
   const [test, setTest] = useState({
     questionRadio: "",
-    question: "",
+    question1: "",
+    question2: "",
+    question3: "",
   });
   const handleChangeRadio = (e) => {
     const { name, value } = e.target;
@@ -180,17 +182,17 @@ export default function TestPage() {
           <div className="ask-item ">
             <div className="item-img">
               <a href="#">
-                <label htmlFor="nav-question-1">
+                <label htmlFor="nav-question-3">
                   <img src={pot} alt="" />
                   <i class="fa fa-check-circle"></i>
                 </label>
               </a>
               <input
                 type="radio"
-                name="question"
+                name="question3"
                 onChange={handleChangeRadio}
                 value="cau1"
-                id="nav-question-1"
+                id="nav-question-3"
               />
             </div>
             <span>Đun 100 độ cho đến khi phép màu xảy ra</span>
@@ -205,7 +207,7 @@ export default function TestPage() {
               </a>
               <input
                 type="radio"
-                name="question"
+                name="question3"
                 onChange={handleChangeRadio}
                 value="cau2"
                 id="nav-question-5"
@@ -258,7 +260,7 @@ export default function TestPage() {
             <label htmlFor="radio-toggle-8">
               <input
                 type="radio"
-                name="questionRadio"
+                name="question2"
                 value="câu này đúng"
                 onChange={handleChangeRadio}
                 id="radio-toggle-8"
@@ -273,7 +275,7 @@ export default function TestPage() {
             <label htmlFor="radio-toggle-9">
               <input
                 type="radio"
-                name="questionRadio"
+                name="question2"
                 value="câu này đúng"
                 onChange={handleChangeRadio}
                 id="radio-toggle-9"
@@ -288,7 +290,7 @@ export default function TestPage() {
           <label htmlFor="radio-toggle-10">
             <input
               type="radio"
-              name="questionRadio"
+              name="question2"
               value="câu này sai"
               onChange={handleChangeRadio}
               id="radio-toggle-10"
@@ -303,7 +305,7 @@ export default function TestPage() {
           <label htmlFor="radio-toggle-11">
             <input
               type="radio"
-              name="questionRadio"
+              name="question2"
               value="câu này ..."
               onChange={handleChangeRadio}
               id="radio-toggle-11"
