@@ -1,6 +1,13 @@
 import axios from "axios";
 import Swal from "sweetalert2";
-import { COMPLETEPROFILE, DOMAIN, ISSUCCESS, LOGIN, SIGNUP } from "../constant";
+import {
+  COMPLETEPROFILE,
+  DOMAIN,
+  GETDISHLISH,
+  ISSUCCESS,
+  LOGIN,
+  SIGNUP,
+} from "../constant";
 import { createAction } from "./createAction";
 
 export const loginThunk_ = (form) => {
@@ -115,6 +122,25 @@ export const completeProfile = (form) => {
   //   }
   // }
 };
+export const getDishLish = (tenMon, trangThai, pageIndex, pageSize) => {
+  return async (dispatch) => {
+    try {
+      await axios({
+        url: `https://devorder.truedata.vn/api/POSWeb/GetDanhSachMon?TenMon=${tenMon}&TrangThai=${trangThai}&PageIndex=${pageIndex}&PageSize=${pageSize}`,
+        method: "GET",
+      })
+        .then((res) => {
+          dispatch(createAction(GETDISHLISH, res.data));
+          console.log("....aaaaa:", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch(err) {
+      console.log(err);
+    }
+  };
+};
 export const signup = (form) => {
   return async (dispatch) => {
     try {
@@ -145,7 +171,7 @@ export const signup = (form) => {
               confirmButtonText: "Xác Nhận",
             });
             setTimeout(() => {
-              window.location.href ='/hoanthienhoso'
+              window.location.href = "/hoanthienhoso";
             }, 1000);
           } else {
             Swal.mixin({
@@ -173,6 +199,4 @@ export const signup = (form) => {
     }
   };
 };
-export const testAsk = (form) =>{
-  
-}
+export const testAsk = (form) => {};

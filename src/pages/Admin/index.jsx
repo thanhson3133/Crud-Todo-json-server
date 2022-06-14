@@ -18,6 +18,7 @@ import DetailProduct from "../../component/Admin/ProductManager/Modal/detailProd
 import UpDateUser from "../../component/Admin/UserManager/updateUser";
 import AddUser from "../../component/Admin/UserManager/addUser";
 import DetailUser from "../../component/Admin/UserManager/detailUser";
+import DishLish from "../../component/DishList";
 export default function Admin() {
   const dispatch = useDispatch();
 
@@ -132,11 +133,11 @@ export default function Admin() {
                 </li>
                 <li>
                   <a
-                    id="v-pills-profile-tab"
+                    id="v-pills-dish-tab"
                     data-toggle="pill"
-                    href="#v-pills-profile"
+                    href="#v-pills-dish"
                     role="tab"
-                    aria-controls="v-pills-profile"
+                    aria-controls="v-pills-dish"
                     aria-selected="false"
                   >
                     <span className="las la-igloo"></span>
@@ -514,6 +515,14 @@ export default function Admin() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div
+              className="tab-pane fade "
+              id="v-pills-dish"
+              role="tabpanel"
+              aria-labelledby="v-pills-dish-tab"
+            >
+              <DishLish/>
             </div>
           </div>
           

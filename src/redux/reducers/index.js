@@ -8,6 +8,7 @@ import {
   UPDATEPRODUCT,
   LOGIN,
   ISSUCCESS,
+  GETDISHLISH,
 } from "../constant";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   isDetailUser: false,
   isAddUser: false,
   isLogin: null,
+  setSearch: {},
 };
 
 export default (state = initialState, action) => {
@@ -50,6 +52,10 @@ export default (state = initialState, action) => {
       return { ...state };
     case LOGIN:
       state.isLogin = action.payload;
+      return { ...state };
+    case GETDISHLISH:
+      state.setSearch = action.payload;
+      console.log("action", action.payload);
       return { ...state };
     default:
       return state;
