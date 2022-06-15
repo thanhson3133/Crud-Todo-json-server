@@ -9,6 +9,8 @@ import {
   LOGIN,
   ISSUCCESS,
   GETDISHLISH,
+  DELETEDISH,
+  UPDATEDISH,
 } from "../constant";
 
 const initialState = {
@@ -22,8 +24,9 @@ const initialState = {
   isAddUser: false,
   isLogin: null,
   setSearch: {},
+  isDeleteDish: false,
+  isUpdateDish: false,
 };
-
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_TASK_LIST:
@@ -55,7 +58,12 @@ export default (state = initialState, action) => {
       return { ...state };
     case GETDISHLISH:
       state.setSearch = action.payload;
-      console.log("action", action.payload);
+      return { ...state };
+    case DELETEDISH:
+      state.isDeleteDish = action.payload;
+      return { ...state };
+    case UPDATEDISH:
+      state.isUpdateDish = action.payload;
       return { ...state };
     default:
       return state;

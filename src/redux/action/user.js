@@ -2,11 +2,13 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import {
   COMPLETEPROFILE,
+  DELETEDISH,
   DOMAIN,
   GETDISHLISH,
   ISSUCCESS,
   LOGIN,
   SIGNUP,
+  UPDATEDISH,
 } from "../constant";
 import { createAction } from "./createAction";
 
@@ -136,9 +138,46 @@ export const getDishLish = (tenMon, trangThai, pageIndex, pageSize) => {
         .catch((err) => {
           console.log(err);
         });
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
+  };
+};
+export const deleteDish = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios({
+        url: ``,
+        method: "DELETE",
+        headers: "",
+      })
+        .then((res) => {
+          console.log(res);
+          dispatch(createAction(DELETEDISH, true));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {}
+  };
+};
+export const updateDish = (form) => {
+  return async (dispatch) => {
+    try {
+      await axios({
+        url: ``,
+        method: "PUT",
+        data: form,
+        headers: "",
+      })
+        .then((res) => {
+          console.log(res);
+          dispatch(createAction(UPDATEDISH, true));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {}
   };
 };
 export const signup = (form) => {

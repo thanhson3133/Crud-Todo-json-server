@@ -56,13 +56,16 @@ export default function Admin() {
             </h1>
           </NavLink>
         </div>
-        <div className="sidebar-menu" >
+        <div className="sidebar-menu">
           <ul className="nav">
             <li className="active">
               <input type="checkbox" id="nav_checkbox" />
               <a className="a_active">
                 <label htmlFor="nav_checkbox">
-                  <span className="las la-igloo"></span> <span>Danh Mục <i class="fa fa-angle-down"></i></span>
+                  <span className="las la-igloo"></span>{" "}
+                  <span>
+                    Danh Mục <i class="fa fa-angle-down"></i>
+                  </span>
                 </label>
               </a>
               <ul className="nav nav__itemFirst ">
@@ -75,7 +78,7 @@ export default function Admin() {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-map-marker-alt"></span>
                     <span>Khu Vực</span>
                   </a>
                 </li>
@@ -88,7 +91,7 @@ export default function Admin() {
                     aria-controls="v-pills-messages"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-street-view"></span>
                     <span>Nhân Viên Khu Vực</span>
                   </a>
                 </li>
@@ -114,7 +117,7 @@ export default function Admin() {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-clipboard-list"></span>
                     <span>Bảng Giá</span>
                   </a>
                 </li>
@@ -127,7 +130,7 @@ export default function Admin() {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-carrot"></span>
                     <span>Nguyên Liệu</span>
                   </a>
                 </li>
@@ -140,7 +143,7 @@ export default function Admin() {
                     aria-controls="v-pills-dish"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-concierge-bell"></span>
                     <span>Món</span>
                   </a>
                 </li>
@@ -153,7 +156,7 @@ export default function Admin() {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-sticky-note"></span>
                     <span>Ghi Chú</span>
                   </a>
                 </li>
@@ -166,7 +169,7 @@ export default function Admin() {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-address-card"></span>
                     <span>Thẻ Khách Hàng</span>
                   </a>
                 </li>
@@ -176,7 +179,10 @@ export default function Admin() {
               <input type="checkbox" id="nav_checkboxSecond" />
               <a className="a_activeSecond">
                 <label htmlFor="nav_checkboxSecond">
-                  <span className="las la-users"></span> <span>Kho <i class="fa fa-angle-down"></i></span>
+                  <span className="las la-users"></span>{" "}
+                  <span>
+                    Kho <i class="fa fa-angle-down"></i>
+                  </span>
                 </label>
               </a>
               <ul className="nav nav__itemSecond">
@@ -189,7 +195,7 @@ export default function Admin() {
                     aria-controls="v-pills-profile"
                     aria-selected="false"
                   >
-                    <span className="las la-igloo"></span>
+                    <span class="fa fa-tasks"></span>
                     <span>Yêu Cầu</span>
                   </a>
                 </li>
@@ -199,7 +205,10 @@ export default function Admin() {
               <input type="checkbox" id="nav_checkboxThird" />
               <a className="a_activeThird">
                 <label htmlFor="nav_checkboxThird">
-                  <span className="las la-users"></span> <span>Quản Lý <i class="fa fa-angle-down"></i></span>
+                  <span class="fa fa-cogs"></span>
+                  <span>
+                    Quản Lý <i class="fa fa-angle-down"></i>
+                  </span>
                 </label>
               </a>
               <ul className="nav nav__itemThird">
@@ -522,10 +531,9 @@ export default function Admin() {
               role="tabpanel"
               aria-labelledby="v-pills-dish-tab"
             >
-              <DishLish/>
+              <DishLish />
             </div>
           </div>
-          
         </main>
       </div>
       <EditProduct />
