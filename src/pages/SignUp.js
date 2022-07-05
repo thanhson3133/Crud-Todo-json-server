@@ -1,43 +1,71 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import React, { useEffect } from "react";
+import InputField from "../component/InputField";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { LoadingButton } from "@mui/lab";
+import { useForm } from "react-hook-form";
+import { Grid, Box, Typography, TextField } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import SelectField from "../component/SelectField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { FormControl, InputLabel, MenuItem } from "@mui/material";
-import { Select } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import Stack from "@mui/material/Stack";
+import { now, parseInt } from "lodash";
+const selectGender = [{ gender: "Male" }, { gender: "Female" }];
+
+const schema = yup
+  .object({
+    name: yup.string().nullable().required("Please enter name"),
+    username: yup.string().nullable().required("Please enter username"),
+    password: yup.string().nullable().required("Please enter password"),
+    confirm_password: yup
+      .string()
+      .nullable()
+      .required("Please enter confirm-password"),
+    address: yup.string().nullable().required("Please enter address"),
+    gender: yup.string().nullable().required("Please select gender"),
+  })
+  .required();
 
 const theme = createTheme();
+export default function MUI() {
+  const form = useForm({
+    defaultValues: {
+      name: null,
+      username: null,
+      password: null,
+      confirm_password: null,
+      address: null,
+      gender: null,
+    },
+    resolver: yupResolver(schema),
+  });
 
-export default function SignUp() {
-  const [value, setValue] = React.useState(new Date("2022-07-05T21:11:54"));
+  const [value, setValue] = React.useState(new Date(now()));
   const [gender, setGender] = React.useState("");
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
-  const handleChangeGender = (event) => {
-    setGender(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+  useEffect(() => {
+    form.reset({
+      name: form.name,
+      username: form.username,
+      password: form.password,
+      confirm_password: form.confirm_password,
+      address: form.address,
+      gender: form.gender,
     });
+  }, []);
+  const handleChange = (newValues) => {
+    console.log("newValues", newValues);
+    setValue(newValues);
   };
-
+  const onSubmit = (values) => {
+    console.log("values", values);
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -56,109 +84,91 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="name"
-                  name="name"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="username"
-                  label="UserName"
-                  name="username"
-                  autoComplete="user-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ minWidth: 120 }}>
-                  <FormControl fullWidth>
-                    <InputLabel id="gender-select">Gender</InputLabel>
-                    <Select
-                      labelId="gender-select"
-                      id="gender"
-                      value={gender}
-                      label="Gender"
-                      onChange={handleChangeGender}
-                    >
-                      <MenuItem value={10}>Male</MenuItem>
-                      <MenuItem value={20}>Female</MenuItem>
-                      <MenuItem value={30}>Other</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirm-password"
-                  label="Confirm-Password"
-                  type="password"
-                  id="confirm-password"
-                  autoComplete="confirm-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <Stack spacing={3}>
-                    <DesktopDatePicker
-                      label="BirthDay"
-                      inputFormat="MM/dd/yyyy"
-                      value={value}
-                      onChange={handleChange}
-                      renderInput={(params) => <TextField {...params} />}
+          <Box sx={{ mt: 3 }}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Box>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <InputField
+                      name={"name"}
+                      form={form}
+                      label={"Name"}
+                      size="small"
+                      sx={{ mb: 2 }}
                     />
-                  </Stack>
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <InputField
+                      name={"username"}
+                      form={form}
+                      label={"UserName"}
+                      size="small"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <InputField
+                      name={"password"}
+                      form={form}
+                      label={"Password"}
+                      size="small"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <InputField
+                      name={"confirm_password"}
+                      form={form}
+                      label={"Confirm-Password"}
+                      size="small"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <InputField
+                      name={"address"}
+                      form={form}
+                      label={"Address"}
+                      size="small"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <SelectField
+                      name="gender"
+                      label="Selected Gender"
+                      form={form}
+                      options={selectGender}
+                      multiple={false}
+                      getOptionLabel={(item) => item?.gender}
+                      sx={{ width: "auto", mb: 6 }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}>
+                        <DesktopDatePicker
+                          name={"birthDate"}
+                          label="Birthday"
+                          inputFormat="MM/dd/yyyy"
+                          value={value}
+                          onChange={handleChange}
+                          renderInput={(params) => <TextField {...params} />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
+                  </Grid>
+                </Grid>
+                <LoadingButton
+                  type={"submit"}
                   fullWidth
-                  name="address"
-                  label="Address"
-                  type="text"
-                  id="address"
-                  autoComplete="address"
-                  multiline={true}
-                />
-              </Grid>
-              
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign Up
+                </LoadingButton>
+              </Box>
+            </form>
           </Box>
         </Box>
       </Container>
