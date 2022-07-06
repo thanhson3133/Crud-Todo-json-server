@@ -1,23 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../component/InputField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { LoadingButton } from "@mui/lab";
 import { useForm } from "react-hook-form";
-import { Grid, Box, Typography, TextField } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
-import SelectField from "../component/SelectField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Stack from "@mui/material/Stack";
-import { now, parseInt } from "lodash";
+import { now } from "lodash";
+import { useDispatch } from "react-redux";
+import { createAction } from "../redux/action/createAction";
+import { SIGNUP } from "../redux/constant";
+import { signUp } from "../redux/action/user";
 const selectGender = [{ gender: "Male" }, { gender: "Female" }];
-
 const schema = yup
   .object({
     name: yup.string().nullable().required("Please enter name"),
@@ -26,13 +35,18 @@ const schema = yup
     confirm_password: yup
       .string()
       .nullable()
-      .required("Please enter confirm-password"),
+      .required("Please enter confirm password")
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
     address: yup.string().nullable().required("Please enter address"),
-    gender: yup.string().nullable().required("Please select gender"),
+    gender: yup.string().nullable().required("Required select gender"),
+    //dayOfBirth: yup
+    //  .date()
+    //  .required("Please enter date"),
   })
   .required();
 
 const theme = createTheme();
+
 export default function MUI() {
   const form = useForm({
     defaultValues: {
@@ -42,13 +56,16 @@ export default function MUI() {
       confirm_password: null,
       address: null,
       gender: null,
+      dayOfBirth: null,
     },
     resolver: yupResolver(schema),
   });
-
-  const [value, setValue] = React.useState(new Date(now()));
-  const [gender, setGender] = React.useState("");
-
+  const dispatch = useDispatch();
+  const [valueDayOfBirth, setValueDayOfBirth] = useState(
+    new Date("MM/dd/yyyy")
+  );
+  const [genderOption, setGenderOption] = useState("");
+  console.log("genderOption", genderOption);
   useEffect(() => {
     form.reset({
       name: form.name,
@@ -56,16 +73,23 @@ export default function MUI() {
       password: form.password,
       confirm_password: form.confirm_password,
       address: form.address,
-      gender: form.gender,
+      gender: genderOption,
+      dayOfBirth: valueDayOfBirth,
     });
   }, []);
-  const handleChange = (newValues) => {
-    console.log("newValues", newValues);
-    setValue(newValues);
+  const handleChangeGender = (event) => {
+    setGenderOption(event.target.value);
   };
+  const handleChangeDayOfBirth = (newValues) => {
+    console.log("newValues", newValues);
+    setValueDayOfBirth(newValues);
+  };
+
   const onSubmit = (values) => {
     console.log("values", values);
+    dispatch(signUp(values));
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -134,30 +158,40 @@ export default function MUI() {
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <SelectField
+                    <Select
+                      variant="standard"
+                      fullWidth
+                      sx={{ mb: 2 }}
+                      labelId="gender"
+                      id="gender"
                       name="gender"
-                      label="Selected Gender"
-                      form={form}
-                      options={selectGender}
-                      multiple={false}
-                      getOptionLabel={(item) => item?.gender}
-                      sx={{ width: "auto", mb: 6 }}
-                    />
+                      value={genderOption}
+                      onChange={handleChangeGender}
+                      label="Gender"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      <MenuItem value={"male"}>Male</MenuItem>
+                      <MenuItem value={"female"}>Female</MenuItem>
+                    </Select>
                   </Grid>
                   <Grid item xs={12}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <Stack spacing={3}>
                         <DesktopDatePicker
-                          name={"birthDate"}
+                          variant="standard"
+                          name={"dayOfBirth"}
                           label="Birthday"
                           inputFormat="MM/dd/yyyy"
-                          value={value}
-                          onChange={handleChange}
+                          value={valueDayOfBirth}
+                          onChange={handleChangeDayOfBirth}
                           renderInput={(params) => <TextField {...params} />}
                         />
                       </Stack>
                     </LocalizationProvider>
                   </Grid>
+                  
                 </Grid>
                 <LoadingButton
                   type={"submit"}

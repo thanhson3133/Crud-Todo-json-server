@@ -1,69 +1,38 @@
 import {
-  ADDPRODUCT,
-  ADDUSER,
-  DETAILPRODUCT,
-  DETAILUSER,
-  UPDATEUSER,
-  GET_TASK_LIST,
-  UPDATEPRODUCT,
-  LOGIN,
-  ISSUCCESS,
-  GETDISHLISH,
-  DELETEDISH,
-  UPDATEDISH,
+  CREATE_PRODUCT,
+  DELETE_PRODUCT,
+  GET_PRODUCT,
+  SIGNIN,
+  SIGNUP,
+  UPDATE_PRODUCT,
 } from "../constant";
 
 const initialState = {
-  taskList: [],
-  taskSaga: [],
-  isUpdateProduct: false,
-  isDetailProduct: false,
-  isAddProduct: false,
-  isUpdateUser: false,
-  isDetailUser: false,
-  isAddUser: false,
-  isLogin: null,
-  setSearch: {},
-  isDeleteDish: false,
-  isUpdateDish: false,
+  signup: {},
+  signin: {},
+  data_product: [],
+  isCreate: false,
+  isUpdate: false,
 };
 export default (state = initialState, action) => {
   switch (action.type) {
-    case GET_TASK_LIST:
-      state.taskList = action.payload;
+    case SIGNUP:
+      state.signup = action.payload;
       return { ...state };
-    case "GETTASK":
-      state.taskSaga = action.payload;
+    case SIGNIN:
+      state.signin = action.payload;
       return { ...state };
-    case UPDATEPRODUCT:
-      state.isUpdateProduct = action.payload;
+    case GET_PRODUCT:
+      state.data_product = action.payload;
       return { ...state };
-    case DETAILPRODUCT:
-      state.isDetailProduct = action.payload;
+    case DELETE_PRODUCT:
+      state.data_product = action.payload;
       return { ...state };
-    case ADDPRODUCT:
-      state.isAddProduct = action.payload;
+    case UPDATE_PRODUCT:
+      state.isUpdate = action.payload;
       return { ...state };
-    case ADDUSER:
-      state.isAddUser = action.payload;
-      return { ...state };
-    case UPDATEUSER:
-      state.isUpdateUser = action.payload;
-      return { ...state };
-    case DETAILUSER:
-      state.isDetailUser = action.payload;
-      return { ...state };
-    case LOGIN:
-      state.isLogin = action.payload;
-      return { ...state };
-    case GETDISHLISH:
-      state.setSearch = action.payload;
-      return { ...state };
-    case DELETEDISH:
-      state.isDeleteDish = action.payload;
-      return { ...state };
-    case UPDATEDISH:
-      state.isUpdateDish = action.payload;
+    case CREATE_PRODUCT:
+      state.isCreate = action.payload;
       return { ...state };
     default:
       return state;

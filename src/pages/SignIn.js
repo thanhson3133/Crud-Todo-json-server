@@ -10,21 +10,15 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
-import SelectField from "../component/SelectField";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import Stack from "@mui/material/Stack";
-const selectGender = [{ gender: "Male" }, { gender: "Female" }];
+import { useDispatch } from "react-redux";
+import { signIn } from "../redux/action/user";
 
 const schema = yup
   .object({
     username: yup.string().nullable().required("Please enter username"),
     password: yup.string().nullable().required("Please enter password"),
-    
   })
   .required();
-
 const theme = createTheme();
 export default function MUI() {
   const form = useForm({
@@ -34,6 +28,7 @@ export default function MUI() {
     },
     resolver: yupResolver(schema),
   });
+  const dispatch = useDispatch();
   useEffect(() => {
     form.reset({
       username: form.username,
@@ -42,6 +37,7 @@ export default function MUI() {
   }, []);
   const onSubmit = (values) => {
     console.log("values", values);
+    dispatch(signIn(values));
   };
   return (
     <ThemeProvider theme={theme}>

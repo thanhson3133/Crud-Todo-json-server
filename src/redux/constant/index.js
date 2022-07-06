@@ -1,16 +1,7 @@
-export const DOMAIN = 'https://web.truework.com.vn/api/'
-export const GET_TASK_LIST = 'GET_TASK_LIST'
-export const ADDPRODUCT = 'ADDPRODUCT'
-export const UPDATEPRODUCT = 'UPDATEPRODUCT'
-export const DETAILPRODUCT = 'DETAILPRODUCT'
-
-export const ADDUSER = 'ADDUSER'
-export const UPDATEUSER = 'UPDATEUSER'
-export const DETAILUSER = 'DETAILUSER'
-export const LOGIN = 'LOGIN'
-export const SIGNUP = 'SIGNUP'
-export const COMPLETEPROFILE = 'COMPLETEPROFILE'
-export const ISSUCCESS = 'ISSUCCESS'
-export const GETDISHLISH = 'GETDISHLISH'
-export const DELETEDISH = 'DELETEDISH'
-export const UPDATEDISH = 'UPDATEDISH'
+export const DOMAIN = "http://localhost:3000";
+export const SIGNIN = "SIGNIN";
+export const SIGNUP = "SIGNUP";
+export const GET_PRODUCT = "GET_PRODUCT";
+export const DELETE_PRODUCT = "DELETE_PRODUCT";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const CREATE_PRODUCT = "CREATE_PRODUCT";
