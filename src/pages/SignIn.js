@@ -12,6 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import { useDispatch } from "react-redux";
 import { signIn } from "../redux/action/user";
+import { useState } from "react";
+import Loading from "../component/Loading";
+import { Link } from "@material-ui/core";
 
 const schema = yup
   .object({
@@ -28,71 +31,92 @@ export default function MUI() {
     },
     resolver: yupResolver(schema),
   });
+
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+
   useEffect(() => {
     form.reset({
       username: form.username,
       password: form.password,
     });
   }, []);
+
   const onSubmit = (values) => {
     console.log("values", values);
     dispatch(signIn(values));
   };
+
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
-          <Box sx={{ mt: 3 }}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <Box>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={12}>
-                    <InputField
-                      name={"username"}
-                      form={form}
-                      label={"UserName"}
-                      size="small"
-                      sx={{ mb: 2 }}
-                    />
+      {loading ? (
+        <Loading />
+      ) : (
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign In
+            </Typography>
+            <Box sx={{ mt: 3 }}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={12}>
+                      <InputField
+                        name={"username"}
+                        form={form}
+                        label={"UserName"}
+                        size="small"
+                        sx={{ mb: 2 }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                      <InputField
+                        name={"password"}
+                        form={form}
+                        label={"Password"}
+                        size="small"
+                        sx={{ mb: 2 }}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} sm={12}>
-                    <InputField
-                      name={"password"}
-                      form={form}
-                      label={"Password"}
-                      size="small"
-                      sx={{ mb: 2 }}
-                    />
+                  <LoadingButton
+                    type={"submit"}
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Sign Up
+                  </LoadingButton>
+                  <Grid item>
+                    <Link href="/" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
                   </Grid>
-                </Grid>
-                <LoadingButton
-                  type={"submit"}
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign Up
-                </LoadingButton>
-              </Box>
-            </form>
+                </Box>
+              </form>
+            </Box>
           </Box>
-        </Box>
-      </Container>
+        </Container>
+      )}
     </ThemeProvider>
   );
 }

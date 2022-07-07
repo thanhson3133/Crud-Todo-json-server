@@ -1,9 +1,12 @@
 import {
   CREATE_PRODUCT,
   DELETE_PRODUCT,
+  FILTER_STATUS,
   GET_PRODUCT,
+  SEARCH_PRODUCT,
   SIGNIN,
   SIGNUP,
+  SORT_PRODUCT,
   UPDATE_PRODUCT,
 } from "../constant";
 
@@ -11,6 +14,7 @@ const initialState = {
   signup: {},
   signin: {},
   data_product: [],
+  isDelete: false,
   isCreate: false,
   isUpdate: false,
 };
@@ -25,8 +29,17 @@ export default (state = initialState, action) => {
     case GET_PRODUCT:
       state.data_product = action.payload;
       return { ...state };
-    case DELETE_PRODUCT:
+    case SEARCH_PRODUCT:
       state.data_product = action.payload;
+      return { ...state };
+    case SORT_PRODUCT:
+      state.data_product = action.payload;
+      return { ...state };
+    case FILTER_STATUS:
+      state.data_product = action.payload;
+      return { ...state };
+    case DELETE_PRODUCT:
+      state.isDelete = action.payload;
       return { ...state };
     case UPDATE_PRODUCT:
       state.isUpdate = action.payload;
