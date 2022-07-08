@@ -30,6 +30,7 @@ import axios from "axios";
 import { DOMAIN } from "../redux/constant";
 import Swal from "sweetalert2";
 import Link from "@mui/material/Link";
+import SelectField from "../component/SelectField";
 import { dateFormat } from "../helper/dateformat";
 
 const genderOptions = [{ label: "Male" }, { label: "Female" }];
@@ -71,7 +72,7 @@ export default function MUI() {
   });
 
   const dispatch = useDispatch();
-  const [valueDayOfBirth, setValueDayOfBirth] = useState(dateFormat);
+  const [valueDayOfBirth, setValueDayOfBirth] = useState('');
   const [loading, setLoading] = useState(false);
 
   /* Effect Loading Page */
@@ -93,12 +94,12 @@ export default function MUI() {
       gender: form.gender,
       dayOfBirth: valueDayOfBirth,
     });
-  }, []);
+  }, [form, valueDayOfBirth]);
 
   console.log("valueDOB", valueDayOfBirth);
-  const handleChangeDOB = (newValue) =>{
+  const handleChangeDOB = (newValue) => {
     setValueDayOfBirth(newValue);
-  }
+  };
   const checkUser = (serverUsers, formData) => {
     const user = serverUsers.find(
       (user) => user.username === formData.username
@@ -125,14 +126,11 @@ export default function MUI() {
           html: `<a  style="color: #27ae60">SignUp Successfully</a>`,
           icon: "success",
           confirmButtonText: "Confirm",
-        }).then((res) => {
-          setTimeout(() => {
-            window.location.href = "/signin";
-          }, 500);
+        }).then(() => {
+          window.location.href = "/signin";
         });
       });
   };
-
   return (
     <ThemeProvider theme={theme}>
       {loading ? (
@@ -196,6 +194,7 @@ export default function MUI() {
                     </Grid>
                     <Grid item xs={12} sm={12}>
                       <InputField
+                        multiline={true}
                         name={"address"}
                         form={form}
                         label={"Address"}
@@ -204,38 +203,14 @@ export default function MUI() {
                       />
                     </Grid>
                     <Grid item xs={12} sx={{ mb: 2 }}>
-                      <Controller
+                      <SelectField
                         name={"gender"}
-                        control={form.control}
-                        render={({
-                          field: { onChange, value },
-                          fieldState: { invalid, isTouched, isDirty, error },
-                        }) => {
-                          return (
-                            <Autocomplete
-                              multiple={false}
-                              id="gender-selection"
-                              variant="standard"
-                              options={genderOptions}
-                              getOptionLabel={genderOptions.label}
-                              onChange={(event, newValue) => {
-                                onChange(newValue.label);
-                              }}
-                              defaultValue={form.gender}
-                              renderInput={(params) => {
-                                return (
-                                  <TextField
-                                    {...params}
-                                    variant="standard"
-                                    label="Select gender"
-                                    error={invalid}
-                                    helperText={error?.message || ""}
-                                  />
-                                );
-                              }}
-                            />
-                          );
-                        }}
+                        label="Select gender"
+                        form={form}
+                        options={genderOptions}
+                        multiple={false}
+                        getOptionLabel={genderOptions.label}
+                        disabeled={false}
                       />
                     </Grid>
                     <Grid item xs={12}>

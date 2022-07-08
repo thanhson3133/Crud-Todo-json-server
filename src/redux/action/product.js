@@ -89,8 +89,10 @@ export const delete_product = (id, page, limit) => {
             html: `<a  style="color: green">Delete Success</a>`,
             icon: "success",
             confirmButtonText: "Confirm",
+          }).then((res) => {
+            window.location.reload();
           });
-          dispatch(get_product(page, limit));
+        //  dispatch(get_product(page, limit));
         })
         .catch((err) => {
           alert(err);
@@ -114,7 +116,7 @@ export const update_product = (form, page, limit) => {
             html: `<a  style="color: green">Update Success</a>`,
             icon: "success",
             confirmButtonText: "Confirm",
-          });
+          })
           dispatch(get_product(page, limit));
         })
         .catch((err) => {
@@ -139,7 +141,7 @@ export const create_product = (form, page, limit) => {
             html: `<a  style="color: green">Create Success</a>`,
             icon: "success",
             confirmButtonText: "Confirm",
-          });
+          })
           dispatch(get_product(page, limit));
         })
         .catch((err) => {

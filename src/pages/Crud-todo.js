@@ -48,6 +48,7 @@ import CreateProduct from "../component/Create";
 import axios from "axios";
 import UpdateProduct from "../component/Update";
 import Loading from "../component/Loading";
+import Modal from "../component/Modal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -304,7 +305,7 @@ export default function CrudTodo() {
           </Box>
           <TableContainer
             component={Paper}
-            sx={{ width: "70%", margin: "auto", marginTop: 2, mb: "2%", }}
+            sx={{ width: "70%", margin: "auto", marginTop: 2, mb: "2%" }}
           >
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
@@ -398,6 +399,7 @@ export default function CrudTodo() {
           </TableContainer>
           <CreateProduct />
           <UpdateProduct data={valueUpdate} />
+          {/*<Modal data={valueUpdate} />*/}
         </Box>
       )}
     </>

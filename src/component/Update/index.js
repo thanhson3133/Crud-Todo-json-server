@@ -31,22 +31,9 @@ import { useState } from "react";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { dateFormat } from "../../helper/dateformat";
+import SelectField from "../SelectField";
 
 const statusOptions = [{ label: "Processing" }, { label: "Done" }];
-
-let today = new Date(),
-  date =
-    today.getFullYear() +
-    "-" +
-    (today.getMonth() + 1) +
-    "-" +
-    today.getDate() +
-    " " +
-    today.getHours() +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds();
 
 const schema = yup
   .object({
@@ -71,7 +58,7 @@ export default function UpdateProduct({ data }) {
     resolver: yupResolver(schema),
   });
 
-  const [valueEndDate, setValueEndDate] = useState(dateFormat);
+  const [valueEndDate, setValueEndDate] = useState('');
   const [page, setPage] = useState(1);
   const [limit] = useState(5);
   const isUpdate = useSelector((state) => state.reducers.isUpdate);
@@ -87,9 +74,11 @@ export default function UpdateProduct({ data }) {
       status: data.status,
       description: data.description,
       start_date: data.start_date,
-      end_date: data.end_date,
+      end_date: valueEndDate,
     });
-  }, []);
+  }, [form, data, valueEndDate]);
+
+  console.log("valueEndDate", valueEndDate);
 
   const handleChangeEndDate = (newValues) => {
     setValueEndDate(newValues);
@@ -147,42 +136,14 @@ export default function UpdateProduct({ data }) {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <Controller
+                    <SelectField
                       name={"status"}
-                      control={form.control}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { invalid, isTouched, isDirty, error },
-                      }) => {
-                        return (
-                          <Autocomplete
-                            multiple={false}
-                            id="status-selection"
-                            variant="standard"
-                            sx={{ mb: 2 }}
-                            value={value}
-
-                            options={statusOptions}
-                            getOptionLabel={statusOptions.label}
-                            onChange={(event, newValue) => {
-                              onChange(newValue.label);
-                            }}
-                            defaultValue={form.gender}
-                            renderInput={(params) => {
-                              return (
-                                <TextField
-                                  sx={{ mb: 2 }}
-                                  {...params}
-                                  variant="standard"
-                                  label="Select status"
-                                  error={invalid}
-                                  helperText={error?.message || ""}
-                                />
-                              );
-                            }}
-                          />
-                        );
-                      }}
+                      label="Select status"
+                      form={form}
+                      options={statusOptions}
+                      multiple={false}
+                      getOptionLabel={statusOptions.label}
+                      disabeled={false}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -195,7 +156,7 @@ export default function UpdateProduct({ data }) {
                       sx={{ mb: 2 }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <Stack spacing={3}>
                         <DesktopDatePicker
@@ -205,7 +166,12 @@ export default function UpdateProduct({ data }) {
                           inputFormat="MM/dd/yyyy"
                           value={valueEndDate}
                           onChange={handleChangeEndDate}
-                          renderInput={(params) => <TextField {...params} variant="standard" />}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              variant="standard"
+                            />
+                          )}
                         />
                       </Stack>
                     </LocalizationProvider>
@@ -217,7 +183,7 @@ export default function UpdateProduct({ data }) {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  Update
                 </LoadingButton>
               </Box>
             </form>
