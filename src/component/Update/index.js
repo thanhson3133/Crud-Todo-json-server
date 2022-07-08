@@ -16,6 +16,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Stack,
   TextField,
 } from "@mui/material";
 import InputField from "../InputField";
@@ -27,8 +28,11 @@ import { useEffect } from "react";
 import { create_product, update_product } from "../../redux/action/product";
 import { now } from "lodash";
 import { useState } from "react";
-import ReactSelect from "react-select";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { dateFormat } from "../../helper/dateformat";
 
+const statusOptions = [{ label: "Processing" }, { label: "Done" }];
 
 let today = new Date(),
   date =
@@ -54,35 +58,50 @@ const schema = yup
   })
   .required();
 
-export default function UpdateProduct() {
+export default function UpdateProduct({ data }) {
   const form = useForm({
     defaultValues: {
+      id: null,
       title: null,
       status: null,
       description: null,
       start_date: null,
       end_date: null,
-      select: null,
     },
     resolver: yupResolver(schema),
   });
+
+  const [valueEndDate, setValueEndDate] = useState(dateFormat);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5);
   const isUpdate = useSelector((state) => state.reducers.isUpdate);
   const dispatch = useDispatch();
+
+  console.log("dataUpdate", data);
+
+  /*Effect Update Form */
   useEffect(() => {
     form.reset({
-      title: form.title,
-      status: form.status,
-      description: form.description,
-      start_date: date,
-      end_date: form.end_date,
+      id: data.id,
+      title: data.title,
+      status: data.status,
+      description: data.description,
+      start_date: data.start_date,
+      end_date: data.end_date,
     });
   }, []);
+
+  const handleChangeEndDate = (newValues) => {
+    setValueEndDate(newValues);
+  };
+
   const handleClose = () => {
     dispatch(createAction(UPDATE_PRODUCT, false));
   };
+
   const onSubmit = (values) => {
-    console.log(values);
-    dispatch(update_product(values));
+    console.log("valueupdate", values);
+    dispatch(update_product(values, page, limit));
   };
 
   return (
@@ -99,6 +118,16 @@ export default function UpdateProduct() {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <Box>
                 <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <InputField
+                      disabled
+                      name={"id"}
+                      form={form}
+                      label={"ID"}
+                      size="small"
+                      sx={{ mb: 2 }}
+                    />
+                  </Grid>
                   <Grid item xs={12} sm={6}>
                     <InputField
                       name={"title"}
@@ -118,16 +147,43 @@ export default function UpdateProduct() {
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <InputField
+                    <Controller
                       name={"status"}
-                      form={form}
-                      label={"Status"}
-                      size="small"
-                      sx={{ mb: 2 }}
+                      control={form.control}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, isTouched, isDirty, error },
+                      }) => {
+                        return (
+                          <Autocomplete
+                            multiple={false}
+                            id="status-selection"
+                            variant="standard"
+                            sx={{ mb: 2 }}
+                            value={value}
+
+                            options={statusOptions}
+                            getOptionLabel={statusOptions.label}
+                            onChange={(event, newValue) => {
+                              onChange(newValue.label);
+                            }}
+                            defaultValue={form.gender}
+                            renderInput={(params) => {
+                              return (
+                                <TextField
+                                  sx={{ mb: 2 }}
+                                  {...params}
+                                  variant="standard"
+                                  label="Select status"
+                                  error={invalid}
+                                  helperText={error?.message || ""}
+                                />
+                              );
+                            }}
+                          />
+                        );
+                      }}
                     />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <InputField
@@ -139,14 +195,20 @@ export default function UpdateProduct() {
                       sx={{ mb: 2 }}
                     />
                   </Grid>
-                  <Grid item xs={12} sm={12}>
-                    <InputField
-                      name={"end_date"}
-                      form={form}
-                      label={"End Date"}
-                      size="small"
-                      sx={{ mb: 2 }}
-                    />
+                  <Grid item xs={6}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Stack spacing={3}>
+                        <DesktopDatePicker
+                          minDate={now()}
+                          name={"end_date"}
+                          label="End Date"
+                          inputFormat="MM/dd/yyyy"
+                          value={valueEndDate}
+                          onChange={handleChangeEndDate}
+                          renderInput={(params) => <TextField {...params} variant="standard" />}
+                        />
+                      </Stack>
+                    </LocalizationProvider>
                   </Grid>
                 </Grid>
                 <LoadingButton

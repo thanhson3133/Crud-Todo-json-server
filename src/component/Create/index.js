@@ -30,22 +30,10 @@ import { create_product } from "../../redux/action/product";
 import { now } from "lodash";
 import { useState } from "react";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { date, dateFormat } from "../../helper/dateformat";
 
 const statusOptions = [{ label: "Processing" }, { label: "Done" }];
 
-let today = new Date(),
-  date =
-    today.getFullYear() +
-    "-" +
-    (today.getMonth() + 1) +
-    "-" +
-    today.getDate() +
-    " " +
-    today.getHours() +
-    ":" +
-    today.getMinutes() +
-    ":" +
-    today.getSeconds();
 
 const schema = yup
   .object({
@@ -53,11 +41,12 @@ const schema = yup
     status: yup.string().nullable().required("Please enter status"),
     description: yup.string().nullable().required("Please enter description"),
     start_date: yup.string().nullable().required("Please enter start date"),
-    //end_date: yup.string().nullable().required("Please enter end date"),
+    end_date: yup.string().nullable().required("Please enter end date"),
   })
   .required();
 
 export default function CreateProduct() {
+
   const form = useForm({
     defaultValues: {
       title: null,
@@ -68,18 +57,18 @@ export default function CreateProduct() {
     },
     resolver: yupResolver(schema),
   });
-  const [statusValue, setStatusValue] = useState("");
-  const [valueEndDate, setValueEndDate] = useState(new Date());
-
+  const [valueEndDate, setValueEndDate] = useState(dateFormat);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5);
   const isCreates = useSelector((state) => state.reducers.isCreate);
   const dispatch = useDispatch();
 
   useEffect(() => {
     form.reset({
       title: form.title,
-      status: statusValue,
+      status: form.status,
       description: form.description,
-      start_date: date,
+      start_date: dateFormat,
       end_date: valueEndDate,
     });
   }, []);
@@ -94,7 +83,7 @@ export default function CreateProduct() {
   
   const onSubmit = (values) => {
     console.log("values", values);
-    dispatch(create_product(values));
+    dispatch(create_product(values, page, limit));
   };
 
   return (
@@ -147,7 +136,6 @@ export default function CreateProduct() {
                             getOptionLabel={statusOptions.label}
                             onChange={(event, newValue) => {
                               onChange(newValue.label);
-                              setStatusValue(newValue.label);
                             }}
                             defaultValue={form.gender}
                             renderInput={(params) => {
@@ -187,7 +175,7 @@ export default function CreateProduct() {
                             inputFormat="MM/dd/yyyy"
                             value={valueEndDate}
                             onChange={handleChangeEndDate}
-                            renderInput={(params) => <TextField {...params} />}
+                            renderInput={(params) => <TextField {...params} variant='standard'/>}
                           />
                         </Stack>
                       </LocalizationProvider>

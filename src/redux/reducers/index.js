@@ -28,6 +28,7 @@ export default (state = initialState, action) => {
       return { ...state };
     case GET_PRODUCT:
       state.data_product = action.payload;
+      console.log('data_productsssss', action.payload);
       return { ...state };
     case SEARCH_PRODUCT:
       state.data_product = action.payload;

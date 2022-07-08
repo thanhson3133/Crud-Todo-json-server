@@ -25,6 +25,7 @@ import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
 import {
   CREATE_PRODUCT,
+  DOMAIN,
   SEARCH_PRODUCT,
   SORT_PRODUCT,
   UPDATE_PRODUCT,
@@ -47,6 +48,7 @@ import CreateProduct from "../component/Create";
 import axios from "axios";
 import UpdateProduct from "../component/Update";
 import Loading from "../component/Loading";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -61,7 +63,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -89,14 +90,20 @@ export default function CrudTodo() {
   const dispatch = useDispatch();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  const data = useSelector((state) => state.reducers.data_product);
-  const [age, setAge] = React.useState("");
   const [keyword, setKeyword] = useState("");
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState("10");
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5);
   const [sortValue, setSortValue] = useState("");
   const [statusValue, setStatusValue] = useState("");
-  
+  const [valueUpdate, setValueUpdate] = useState("");
+  const [dataLength, setDataLength] = useState([]);
+
+  /* Effect Get All Products */
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  /* Effect Loading Page */
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -104,6 +111,7 @@ export default function CrudTodo() {
     }, 1000);
   }, []);
 
+  /* Effect Check Login Redirect */
   useEffect(() => {
     if (!dataSignin) {
       navigator("/signin");
@@ -116,31 +124,37 @@ export default function CrudTodo() {
     }
   }, [dataSignin]);
 
+  /* Effect Get Products Pagination */
   useEffect(() => {
-    dispatch(get_product());
-  }, []);
+    dispatch(get_product(page, limit));
+  }, [dispatch, page, limit]);
+  const data = useSelector((state) => state.reducers.data_product);
 
+  /* Effect Update Form */
   useEffect(() => {
     form.reset({
       keyword: form.keyword,
     });
   }, []);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const getProduct = async () => {
+    let data = await axios.get(`${DOMAIN}/Products`);
+    setDataLength(data.data.length);
   };
 
   const handleChangePage = (e, newPage) => {
+    console.log("newPage", newPage);
     setPage(newPage);
   };
 
-  const handleDelete = (id) => {
-    dispatch(delete_product(id));
-    console.log(id);
+  const handleDelete = (id, page, limit) => {
+    dispatch(delete_product(id, page, limit));
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = async (id) => {
     dispatch(createAction(UPDATE_PRODUCT, true));
+    let dataUpdate = await axios.get(`${DOMAIN}/Products/${id}`);
+    setValueUpdate(dataUpdate.data);
   };
 
   const handleCreate = () => {
@@ -148,29 +162,27 @@ export default function CrudTodo() {
   };
 
   const handleSearch = () => {
-    dispatch(search_product(keyword));
+    dispatch(search_product(keyword, page, limit));
   };
 
   const handleSort = (e) => {
-    let value = e.target.value;
-    setSortValue(value);
-    dispatch(sort_product(value));
+    let valueSort = e.target.value;
+    setSortValue(valueSort);
+    dispatch(sort_product(valueSort, page, limit));
   };
 
   const handleFilterStatus = (e) => {
-    let value = e.target.value;
-    setStatusValue(value);
-    dispatch(filter_status(value));
+    let valueFilter = e.target.value;
+    setStatusValue(valueFilter);
+    dispatch(filter_status(valueFilter, page, limit));
   };
 
-  const handleSubmit = (values) => {
-    console.log(values);
-  };
   const handleLogOut = () => {
     localStorage.removeItem("login");
     navigator("/signin");
   };
-  const onSubmit = (values) => {
+
+  const handleSubmit = (values) => {
     console.log(values);
   };
 
@@ -183,10 +195,11 @@ export default function CrudTodo() {
           sx={{
             background: "#CFD2CF",
             width: "80%",
-            height: "60rem",
+            height: "45rem",
             margin: "auto",
-            mt: "2%",
+            mt: "9%",
             mb: "2%",
+            borderRadius: "20px",
           }}
         >
           <Box sx={{ width: "70%", margin: "auto" }}>
@@ -291,7 +304,7 @@ export default function CrudTodo() {
           </Box>
           <TableContainer
             component={Paper}
-            sx={{ width: "70%", margin: "auto", marginTop: 2 }}
+            sx={{ width: "70%", margin: "auto", marginTop: 2, mb: "2%", }}
           >
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
               <TableHead>
@@ -310,7 +323,7 @@ export default function CrudTodo() {
                     >
                       <Typography sx={{ ml: 10 }}>Action</Typography>
                       <LoadingButton
-                        sx={{ mr: -3 }}
+                        sx={{ mr: -1 }}
                         size="small"
                         color="primary"
                         type="button"
@@ -374,11 +387,17 @@ export default function CrudTodo() {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Pagination count={10} variant="outlined" shape="rounded" />
+              <Pagination
+                count={Math.ceil(dataLength / 5)}
+                page={page}
+                onChange={handleChangePage}
+                className="pagination"
+                shape="rounded"
+              />
             </Stack>
           </TableContainer>
           <CreateProduct />
-          <UpdateProduct />
+          <UpdateProduct data={valueUpdate} />
         </Box>
       )}
     </>

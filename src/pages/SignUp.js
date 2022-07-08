@@ -30,6 +30,7 @@ import axios from "axios";
 import { DOMAIN } from "../redux/constant";
 import Swal from "sweetalert2";
 import Link from "@mui/material/Link";
+import { dateFormat } from "../helper/dateformat";
 
 const genderOptions = [{ label: "Male" }, { label: "Female" }];
 
@@ -49,9 +50,7 @@ const schema = yup
       .oneOf([yup.ref("password"), null], "Passwords must match"),
     address: yup.string().nullable().required("Please enter address"),
     gender: yup.string().nullable().required("Required select gender"),
-    //dayOfBirth: yup
-    //  .date()
-    //  .required("Please enter date"),
+    dayOfBirth: yup.string().nullable().required("Please enter date"),
   })
   .required();
 
@@ -70,13 +69,12 @@ export default function MUI() {
     },
     resolver: yupResolver(schema),
   });
+
   const dispatch = useDispatch();
-  const [valueDayOfBirth, setValueDayOfBirth] = useState(
-    new Date("MM/dd/yyyy")
-  );
-  const [genderSelect, setGenderSelect] = useState("");
+  const [valueDayOfBirth, setValueDayOfBirth] = useState(dateFormat);
   const [loading, setLoading] = useState(false);
 
+  /* Effect Loading Page */
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -84,8 +82,7 @@ export default function MUI() {
     }, 1000);
   }, []);
 
-  console.log("newValue", genderSelect);
-
+  /* Effect Update Form */
   useEffect(() => {
     form.reset({
       name: form.name,
@@ -93,28 +90,27 @@ export default function MUI() {
       password: form.password,
       confirm_password: form.confirm_password,
       address: form.address,
-      gender: genderSelect,
+      gender: form.gender,
       dayOfBirth: valueDayOfBirth,
     });
   }, []);
 
-  const handleChangeDayOfBirth = (newValues) => {
-    console.log("newValues", newValues);
-    setValueDayOfBirth(newValues);
-  };
-
+  console.log("valueDOB", valueDayOfBirth);
+  const handleChangeDOB = (newValue) =>{
+    setValueDayOfBirth(newValue);
+  }
   const checkUser = (serverUsers, formData) => {
     const user = serverUsers.find(
       (user) => user.username === formData.username
     );
     if (user) return user;
   };
+
   const onSubmit = async (values) => {
     console.log("values", values);
     const user = await axios
       .get(`${DOMAIN}/Users`)
       .then((res) => checkUser(res.data, values));
-
     if (user) {
       Swal.fire({
         title: "",
@@ -224,7 +220,6 @@ export default function MUI() {
                               getOptionLabel={genderOptions.label}
                               onChange={(event, newValue) => {
                                 onChange(newValue.label);
-                                setGenderSelect(newValue.label);
                               }}
                               defaultValue={form.gender}
                               renderInput={(params) => {
@@ -246,15 +241,36 @@ export default function MUI() {
                     <Grid item xs={12}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <Stack spacing={3}>
-                          <DesktopDatePicker
-                            maxDate={now()}
-                            variant="standard"
+                          <Controller
                             name={"dayOfBirth"}
-                            label="Birthday"
-                            inputFormat="MM/dd/yyyy"
-                            value={valueDayOfBirth}
-                            onChange={handleChangeDayOfBirth}
-                            renderInput={(params) => <TextField {...params} />}
+                            control={form.control}
+                            render={({
+                              field: { onChange, value },
+                              fieldState: {
+                                invalid,
+                                isTouched,
+                                isDirty,
+                                error,
+                              },
+                            }) => {
+                              return (
+                                <DesktopDatePicker
+                                  maxDate={now()}
+                                  variant="standard"
+                                  label="Birthday"
+                                  value={valueDayOfBirth}
+                                  inputFormat="MM/dd/yyyy"
+                                  onChange={handleChangeDOB}
+                                  renderInput={(params) => (
+                                    <TextField
+                                      {...params}
+                                      error={invalid}
+                                      helperText={error?.message || ""}
+                                    />
+                                  )}
+                                />
+                              );
+                            }}
                           />
                         </Stack>
                       </LocalizationProvider>

@@ -22,7 +22,9 @@ const schema = yup
     password: yup.string().nullable().required("Please enter password"),
   })
   .required();
+
 const theme = createTheme();
+
 export default function MUI() {
   const form = useForm({
     defaultValues: {
@@ -35,13 +37,15 @@ export default function MUI() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
+ /* Effect Loading Page */
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
   }, []);
-
+  
+ /* Effect Update Form */
   useEffect(() => {
     form.reset({
       username: form.username,
