@@ -96,6 +96,7 @@ export default function MUI() {
                       <InputField
                         name={"password"}
                         form={form}
+                        type={'password'}
                         label={"Password"}
                         size="small"
                         sx={{ mb: 2 }}

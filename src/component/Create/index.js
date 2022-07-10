@@ -144,16 +144,31 @@ export default function CreateProduct() {
                   <Grid item xs={12}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <Stack spacing={3}>
-                        <DesktopDatePicker
-                          minDate={now()}
+                        <Controller
                           name={"end_date"}
-                          label="End Date"
-                          inputFormat="MM/dd/yyyy"
-                          value={valueEndDate}
-                          onChange={handleChangeEndDate}
-                          renderInput={(params) => (
-                            <TextField {...params} variant="standard" />
-                          )}
+                          control={form.control}
+                          render={({
+                            field: { onChange, value },
+                            fieldState: { invalid, isTouched, isDirty, error },
+                          }) => {
+                            return (
+                              <DesktopDatePicker
+                                maxDate={now()}
+                                variant="standard"
+                                label="End Date"
+                                value={valueEndDate}
+                                inputFormat="MM/dd/yyyy"
+                                onChange={handleChangeEndDate}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    error={invalid}
+                                    helperText={error?.message || ""}
+                                  />
+                                )}
+                              />
+                            );
+                          }}
                         />
                       </Stack>
                     </LocalizationProvider>

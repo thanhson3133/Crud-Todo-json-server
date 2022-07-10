@@ -177,6 +177,7 @@ export default function MUI() {
                     <Grid item xs={12} sm={6}>
                       <InputField
                         name={"password"}
+                        type={'password'}
                         form={form}
                         label={"Password"}
                         size="small"
@@ -188,6 +189,7 @@ export default function MUI() {
                         name={"confirm_password"}
                         form={form}
                         label={"Confirm-Password"}
+                        type={'password'}
                         size="small"
                         sx={{ mb: 2 }}
                       />

@@ -136,7 +136,7 @@ export default function CrudTodo() {
     form.reset({
       keyword: form.keyword,
     });
-  }, []);
+  }, [form]);
 
   const getProduct = async () => {
     let data = await axios.get(`${DOMAIN}/Products`);
