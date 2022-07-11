@@ -1,0 +1,153 @@
+///Handle edit
+  const handleEditUser = (taiKhoan) => () => {
+    let userSelected = {};
+    let haveUser = false;
+    for (let user of userInfo.items) {
+      if (taiKhoan === user.taiKhoan) {
+        userSelected = { ...user };
+        haveUser = true;
+      }
+    }
+    if (haveUser) {
+      dispatch(
+        createAction(EDIT_USER, {
+          selectedUser: { ...userSelected },
+          isPopUp: true,
+          typePopUp: "Cập Nhật Thông Tin",
+        })
+      );
+      dispatch(createAction(SET_EDITED, false));
+    }
+  };
+  // selector đến reducer lấy user được chọn 
+   const dispatch = useDispatch();
+  const isPopUp = useSelector((state) => state.userReducers.isPopUp);
+  const classes = useStyles();
+  const selectedUser = useSelector((state) => state.userReducers.selectedUser);
+  const typeOfPopUp = useSelector((state) => state.userReducers);
+
+  const [form, setForm] = useState({
+    taiKhoan: "",
+    matKhau: "",
+    email: "",
+    hoTen: "",
+    maLoaiNguoiDung: "",
+    soDt: "",
+    maNhom: "GP01",
+  });
+
+  useEffect(() => {
+    setForm({
+      taiKhoan: selectedUser.taiKhoan,
+      matKhau: selectedUser.matKhau,
+      email: selectedUser.email,
+      hoTen: selectedUser.hoTen,
+      soDt: selectedUser.soDt,
+      maNhom: "GP01",
+      maLoaiNguoiDung: selectedUser.maLoaiNguoiDung,
+    });
+  }, [selectedUser]);
+  
+  
+  //edituser api
+  
+export const editUser = (form) => {
+    return (dispatch) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken")
+            Swal.fire({
+                title: "Waiting ...",
+                text: "Đang xử lý ...",
+                icon: "info",
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            axios({
+                url:
+                    `https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+                method: "PUT",
+                data: form,
+                headers: {
+                    Authorization: `Bearer ` + accessToken,
+                }
+            }).then((res) => {
+                dispatch(createAction(SET_EDITED, true));
+                Swal.fire({
+                    title: 'Yeah !!!',
+                    text: 'Chỉnh Sửa Người Dùng Thành Công !!!',
+                    icon: 'success',
+                    allowOutsideClick: false
+                })
+                dispatch(createAction(SET_POPUP, false));
+            }).catch(err => {
+                Swal.fire('Oops !!!', `${err.response.data}`, 'error')
+            })
+
+        } catch (err) {
+            Swal.fire('Oops !!!', 'Có lỗi trong quá trình chỉnh sửa, xin hãy kiểm tra lại !!!', 'error')
+        }
+    };
+};
+// reducer 
+
+const initialState = {
+    userInfo: {},
+    selectedUser: {},
+    detailUser: {},
+    isPopUp: false,
+    isCreated: false,
+    isEdited: false,
+    isDeleted: false,
+    isDetail: false,
+    isSearch: false,
+    isRedirect: false,
+    typePopUp: '',
+}
+
+const reducer = (state = initialState, { type, payload }) => {
+    switch (type) {
+        case SET_POPUP:
+            state = { ...state, isPopUp: payload };
+            return { ...state };
+        case SET_CREATED:
+            state = { ...state, isCreated: payload };
+            return { ...state };
+        case SET_REDIRECT:
+            state = { ...state, isRedirect: payload };
+            return { ...state };
+        case SET_EDITED:
+            state = { ...state, isEdited: payload };
+            return { ...state };
+        case SET_DELETED:
+            state = { ...state, isDeleted: payload };
+            return { ...state };
+        case SET_DETAIL:
+            state = { ...state, isDetail: payload };
+            return { ...state };
+        case SET_SEARCH:
+            state = { ...state, isSearch: payload };
+            return { ...state };
+        case EDIT_USER:
+            state = { ...state, ...payload }
+            return { ...state }
+        case DELETE_USER:
+            state = { ...state, ...payload }
+            return { ...state }
+        case CREATE_USER:
+            state = { ...state, ...payload }
+            return { ...state }
+        case FETCH_DETAIL_USER:
+            state = { ...state, ...payload }
+            return { ...state }
+        case FETCH_USER_LIST:
+            state = { ...state, userInfo: payload };
+            return { ...state };
+        case SEARCH_USER:
+            state = { ...state, userInfo: payload };
+            return { ...state };
+        default:
+            return state;
+    }
+}
+
+export default reducer;
